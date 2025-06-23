@@ -1,0 +1,23 @@
+{
+  "founder_name": "Sam Altman",
+  "verified_images": [
+    {
+      "url": "https://149346090.v2.pressablecdn.com/wp-content/uploads/2023/05/3MW-SamAltman-768x432.jpg",
+      "quality_score": 0.95,
+      "confidence": 1,
+      "overall_score": 0.95,
+      "face_area": 71556,
+      "is_primary_face": true,
+      "image_dimensions": [768, 432]
+    }
+  ],
+  "image_urls": [
+    "https://149346090.v2.pressablecdn.com/wp-content/uploads/2023/05/3MW-SamAltman-768x432.jpg"
+  ],
+  "search_queries": [
+    "Sam Altman OpenAI CEO",
+    "Sam Altman Y Combinator",
+    "Sam Altman portrait headshot",
+    "Sam Altman interview photo"
+  ]
+} 

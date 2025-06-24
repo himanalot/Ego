@@ -50,8 +50,8 @@ class InstagramPostCreator {
       const instagramHeight = 1920;
 
       // The source video's metadata indicates it should be displayed as 16:9 (landscape).
-      // We will make it 95% of the canvas width to leave a small margin.
-      const targetWidth = Math.floor(instagramWidth * 0.95);
+      // We will make it 85% of the canvas width to leave larger side margins.
+      const targetWidth = Math.floor(instagramWidth * 0.85);
       const targetHeight = Math.floor(targetWidth * 9 / 16); // Calculate height for a 16:9 ratio.
 
       console.log(`   Canvas: ${instagramWidth}x${instagramHeight}`);
@@ -78,8 +78,8 @@ class InstagramPostCreator {
             lt(X,${cornerRadius})*gt(Y,H-${cornerRadius})*gt(pow(X-${cornerRadius},2)+pow(Y-(H-${cornerRadius}),2),pow(${cornerRadius},2)),0,if( \
             gt(X,W-${cornerRadius})*gt(Y,H-${cornerRadius})*gt(pow(X-(W-${cornerRadius}),2)+pow(Y-(H-${cornerRadius}),2),pow(${cornerRadius},2)),0,255))))'[rounded_video]`,
 
-          // Step 5: Apply smooth fade-in effect to the video (fade in over 0.5 seconds)
-          `[rounded_video]fade=t=in:st=0:d=0.5:alpha=1[faded_video]`,
+          // Step 5: Upsample to 60fps and apply a 1-second alpha fade for 60 discrete steps (smoother)
+          `[rounded_video]fps=60,fade=t=in:st=0:d=1:alpha=1[faded_video]`,
 
           // Step 6: Overlay the faded video onto the canvas.
           `[bg][faded_video]overlay=(W-w)/2:H-h-${videoBottomMargin}[final]`
@@ -92,7 +92,7 @@ class InstagramPostCreator {
           '-preset', 'medium',
           '-crf', '23',
           '-pix_fmt', 'yuv420p',
-          '-r', '30',
+          '-r', '60',
           '-shortest'
         ])
         .output(outputPath)
@@ -124,7 +124,7 @@ class InstagramPostCreator {
       cornerRadius = 40,
       textColor = '#FFFFFF',
       fontSize = 50,
-      textTopMargin = 100,
+      textTopMargin = 250,
       bold = false,
       italic = false
     } = options;
@@ -147,8 +147,8 @@ class InstagramPostCreator {
       const instagramHeight = 1920;
 
       // The source video's metadata indicates it should be displayed as 16:9 (landscape).
-      // We will make it 95% of the canvas width to leave a small margin.
-      const targetWidth = Math.floor(instagramWidth * 0.95);
+      // We will make it 85% of the canvas width to leave larger side margins.
+      const targetWidth = Math.floor(instagramWidth * 0.85);
       const targetHeight = Math.floor(targetWidth * 9 / 16); // Calculate height for a 16:9 ratio.
 
       console.log(`   Canvas: ${instagramWidth}x${instagramHeight}`);
@@ -174,8 +174,8 @@ class InstagramPostCreator {
             lt(X,${cornerRadius})*gt(Y,H-${cornerRadius})*gt(pow(X-${cornerRadius},2)+pow(Y-(H-${cornerRadius}),2),pow(${cornerRadius},2)),0,if( \
             gt(X,W-${cornerRadius})*gt(Y,H-${cornerRadius})*gt(pow(X-(W-${cornerRadius}),2)+pow(Y-(H-${cornerRadius}),2),pow(${cornerRadius},2)),0,255))))'[rounded_video]`,
 
-          // Step 5: Apply smooth fade-in effect to the video (fade in over 0.5 seconds)
-          `[rounded_video]fade=t=in:st=0:d=0.5:alpha=1[faded_video]`,
+          // Step 5: Upsample to 60fps and apply a 1-second alpha fade for 60 discrete steps (smoother)
+          `[rounded_video]fps=60,fade=t=in:st=0:d=1:alpha=1[faded_video]`,
 
           // Step 6: First overlay the text PNG on the background (text appears immediately)
           `[bg][1:v]overlay=0:0[bg_with_text]`,
@@ -192,7 +192,7 @@ class InstagramPostCreator {
           '-preset', 'medium',
           '-crf', '23',
           '-pix_fmt', 'yuv420p',
-          '-r', '30',
+          '-r', '60',
           '-shortest'
         ])
         .output(outputPath)
@@ -446,9 +446,9 @@ class InstagramPostCreator {
     const {
       fontSize = 50,
       textColor = '#FFFFFF',
-      textTopMargin = 100,
-      leftMargin = 60,
-      maxWidth = 960 // 1080 - 2*60
+      textTopMargin = 250,
+      leftMargin = 120,
+      maxWidth = 840 // 1080 - 2*120
     } = options;
 
     const width = 1080;
@@ -569,8 +569,8 @@ async function createVideoProject(inputPath, storyText, clipInfo) {
         source: 'source_video.mp4',
         canvasWidth: 1080,
         canvasHeight: 1920,
-        targetWidth: Math.floor(1080 * 0.95),
-        targetHeight: Math.floor((1080 * 0.95) * 9 / 16),
+        targetWidth: Math.floor(1080 * 0.85),
+        targetHeight: Math.floor((1080 * 0.85) * 9 / 16),
         backgroundColor: '#000000',
         cornerRadius: 40,
         videoBottomMargin: 100
@@ -590,9 +590,9 @@ async function createVideoProject(inputPath, storyText, clipInfo) {
           color: '#FFFFFF',
           lineHeight: 1.25,
           textBaseline: 'top',
-          leftMargin: 60,
-          textTopMargin: 100,
-          maxWidth: 960,
+          leftMargin: 120,
+          textTopMargin: 250,
+          maxWidth: 840,
           spaceHandling: 'smart',
           wordWrap: true,
           markdown: true

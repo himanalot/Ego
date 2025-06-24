@@ -503,12 +503,12 @@ async function createVideoProjectInBackground(founderName, storyContent, videoUr
         // Canvas dimensions
         canvasWidth: 1080,
         canvasHeight: 1920,
-        // Video scaling (95% of canvas width for margins)
-        targetWidth: Math.floor(1080 * 0.95), // 1026
-        targetHeight: Math.floor((1080 * 0.95) * 9 / 16), // 577 (16:9 ratio)
+        // Video scaling (85% of canvas width for larger margins)
+        targetWidth: Math.floor(1080 * 0.85), // 918
+        targetHeight: Math.floor((1080 * 0.85) * 9 / 16), // 516 (16:9 ratio)
         // Positioning
-        x: (1080 - Math.floor(1080 * 0.95)) / 2, // Centered horizontally
-        y: 1920 - Math.floor((1080 * 0.95) * 9 / 16) - 100, // Bottom margin of 100px
+        x: (1080 - Math.floor(1080 * 0.85)) / 2, // Centered horizontally
+        y: 1920 - Math.floor((1080 * 0.85) * 9 / 16) - 100, // Bottom margin of 100px
         // Styling
         backgroundColor: '#000000',
         cornerRadius: 40,
@@ -522,9 +522,9 @@ async function createVideoProjectInBackground(founderName, storyContent, videoUr
           type: 'text',
           content: storyContent,
           // Text positioning (matches generateTextImage function)
-          x: 60, // leftMargin from script
-          y: 100, // textTopMargin from script
-          width: 960, // maxWidth from script (1080 - 2*60)
+          x: 120, // leftMargin from script
+          y: 250, // textTopMargin from script
+          width: 840, // maxWidth from script (1080 - 2*120)
           height: 800, // Estimated height for text area
           // Typography (matches script exactly)
           fontSize: 50,
@@ -536,9 +536,9 @@ async function createVideoProjectInBackground(founderName, storyContent, videoUr
           lineHeight: 1.25, // fontSize * 1.25 from script
           textBaseline: 'top',
           // Layout settings (matches script)
-          leftMargin: 60,
-          textTopMargin: 100,
-          maxWidth: 960,
+          leftMargin: 120,
+          textTopMargin: 250,
+          maxWidth: 840,
           spaceHandling: 'smart', // No space before punctuation
           wordWrap: true,
           markdown: true

@@ -46,12 +46,12 @@ export async function POST(request) {
         // Canvas dimensions
         canvasWidth: 1080,
         canvasHeight: 1920,
-        // Video scaling (95% of canvas width for margins)
-        targetWidth: Math.floor(1080 * 0.95), // 1026
-        targetHeight: Math.floor((1080 * 0.95) * 9 / 16), // 577 (16:9 ratio)
+        // Video scaling (85% of canvas width for larger margins)
+        targetWidth: Math.floor(1080 * 0.85), // 918
+        targetHeight: Math.floor((1080 * 0.85) * 9 / 16), // 516 (16:9 ratio)
         // Positioning
-        x: (1080 - Math.floor(1080 * 0.95)) / 2, // Centered horizontally
-        y: 1920 - Math.floor((1080 * 0.95) * 9 / 16) - 100, // Bottom margin of 100px
+        x: (1080 - Math.floor(1080 * 0.85)) / 2, // Centered horizontally
+        y: 1920 - Math.floor((1080 * 0.85) * 9 / 16) - 100, // Bottom margin of 100px
         // Styling
         backgroundColor: '#000000',
         cornerRadius: 40,
@@ -64,9 +64,9 @@ export async function POST(request) {
           id: 'main-text',
           type: 'text',
           content: storyText,
-          x: 108, // 10% of 1080
-          y: 288, // 15% of 1920  
-          width: 864, // 80% of 1080
+          x: 120, // Consistent with leftMargin
+          y: 250, // textTopMargin
+          width: 840, // 1080 - 2*120
           height: 576, // 30% of 1920
           fontSize: 50,
           fontFamily: 'NimbusSans-Bold',

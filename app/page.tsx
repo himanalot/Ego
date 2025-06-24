@@ -7,6 +7,7 @@ export default function LandingPage() {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isCreatingVideo, setIsCreatingVideo] = useState(false);
+  const [showChatModal, setShowChatModal] = useState(true);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({ 
     api: '/api/chat',
@@ -22,6 +23,8 @@ export default function LandingPage() {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+
 
   const handleCreateVideo = async (messageContent: string) => {
     setIsCreatingVideo(true);
@@ -117,6 +120,19 @@ export default function LandingPage() {
     "Show me founders who started companies before age 20",
     "Find recent young entrepreneur success stories"
   ];
+
+  // Custom submit handler that closes search interface
+  const handleCustomSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    
+    // Close the search interface after submission and show chat modal
+    setIsSearchExpanded(false);
+    setShowChatModal(true);
+    
+    // Call the original handleSubmit from useChat
+    await handleSubmit(e);
+  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -234,14 +250,14 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Chat Messages - Only show when there are messages beyond welcome */}
-      {messages.length > 1 && (
+      {/* Chat Messages - Only show when there are messages beyond welcome and modal is open */}
+      {messages.length > 1 && showChatModal && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-40 flex items-center justify-center p-6">
           <div className="w-full max-w-4xl max-h-[80vh] bg-[#1A1A1A]/90 backdrop-blur-xl border border-[#333333] rounded-2xl overflow-hidden">
             <div className="flex justify-between items-center p-6 border-b border-[#333333]">
               <h3 className="text-xl font-medium text-[#E1E0DC]">Conversation</h3>
               <button 
-                onClick={() => window.location.reload()}
+                onClick={() => setShowChatModal(false)}
                 className="text-[#828282] hover:text-[#E1E0DC]"
               >
                 ✕
@@ -316,7 +332,7 @@ export default function LandingPage() {
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-purple-400/15 to-pink-400/10 blur-2xl rounded-3xl"></div>
               <div className="relative bg-[#1A1A1A]/90 backdrop-blur-xl border border-[#333333]/50 rounded-2xl p-8">
-                <form onSubmit={handleSubmit} className="relative">
+                <form onSubmit={handleCustomSubmit} className="relative">
                   <textarea
                     value={input}
                     onChange={handleInputChange}
